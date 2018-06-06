@@ -8,13 +8,11 @@ import {
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 
-const whitelist = '0123456789';
-
 export default class AddExpense extends React.Component {
 
     state = {
-        expenseInput: '',
-        date: '2016-05-15'
+        expense: '',
+        date: ''
     };
 
     componentWillMount() {
@@ -23,7 +21,7 @@ export default class AddExpense extends React.Component {
         let day = today.getDate();
         let month = today.getMonth() + 1;
         let year = today.getFullYear();
-        let formatToday = `${year}-${month}-${day}`
+        let formatToday = `${year}-${month}-${day}`;
 
         this.setState({
             date: formatToday
@@ -31,19 +29,9 @@ export default class AddExpense extends React.Component {
     };
 
     onChangeText = (text) => {
-
-        let whitelistText = '';
-
-        for (let i = 0; i < text.length; i++) {
-            if (whitelist.includes(text[i])) {
-                whitelistText += text[i];
-            };
-        };
-
         this.setState({
-            expenseInput: whitelistText
+            expense: text
         })
-
     };
 
     onAddExpense = () => {
@@ -51,14 +39,14 @@ export default class AddExpense extends React.Component {
 
     render() {
 
-        let enableAddBtn = this.state.expenseInput.length > 0;
+        let emptyInputField = this.state.expense.length < 1;
 
         return (
             <View style={styles.container}>
                 <Text style={styles.header}>Date</Text>
-                <Text style={styles.subtitle}>Day of purchase</Text>
+                <Text style={styles.small}>Day of purchase, click field to change</Text>
                 <DatePicker
-                    style={styles.datePicker}
+                    style={styles.datepicker}
                     mode="date"
                     placeholder="Select date"
                     format="YYYY-MM-DD"
@@ -66,15 +54,17 @@ export default class AddExpense extends React.Component {
                     onDateChange={(date) => { this.setState({ date }) }}
                 />
                 <Text style={styles.header}>Expense</Text>
-                <Text style={styles.subtitle}>Only numbers (0 - 9) allowed</Text>
+                <Text style={styles.small}>Only numbers (0 - 9) allowed</Text>
                 <TextInput
                     numberOfLines={1}
-                    maxLength={10}
+                    maxLength={20}
+                    keyboardType={'numeric'}
                     onChangeText={(text) => this.onChangeText(text)}
-                    value={this.state.expenseInput}
+                    value={this.state.expense}
                 />
+                {emptyInputField && <Text style={styles.requiredField}>Required</Text>}
                 <View style={styles.fillSpace}></View>
-                <Button title="Add" onPress={this.onAddExpense} disabled={!enableAddBtn} />
+                <Button title="Add" onPress={this.onAddExpense} disabled={emptyInputField} />
             </View>
         );
     };
@@ -89,16 +79,21 @@ const styles = StyleSheet.create({
     header: {
         fontWeight: 'bold',
     },
-    subtitle: {
+    small: {
         fontSize: 10,
-        marginBottom: 5
+    },
+    datepicker: {
+        width: '100%',
+        marginTop: 5,
+        marginBottom: 20
     },
     numberInput: {
 
     },
-    datePicker: {
-        width: '100%',
-        marginBottom: 20
+    requiredField: {
+        fontSize: 10,
+        color: 'red',
+        marginLeft: 5
     },
     fillSpace: {
         flex: 1
