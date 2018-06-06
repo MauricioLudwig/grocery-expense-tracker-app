@@ -8,6 +8,9 @@ import {
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 
+import { btnColor } from '../../styling/styling';
+import Icon from 'react-native-vector-icons/EvilIcons';
+
 export default class AddExpense extends React.Component {
 
     state = {
@@ -35,11 +38,17 @@ export default class AddExpense extends React.Component {
     };
 
     onAddExpense = () => {
+        let newExpense = {
+            date: this.state.date,
+            expense: this.state.expense
+        };
+        this.props.addExpenseHandler(newExpense);
     };
 
     render() {
 
         let emptyInputField = this.state.expense.length < 1;
+        const customIconComponent = <Icon name="calendar" size={25}></Icon>
 
         return (
             <View style={styles.container}>
@@ -47,6 +56,7 @@ export default class AddExpense extends React.Component {
                 <Text style={styles.small}>Day of purchase, click field to change</Text>
                 <DatePicker
                     style={styles.datepicker}
+                    iconComponent={customIconComponent}
                     mode="date"
                     placeholder="Select date"
                     format="YYYY-MM-DD"
@@ -56,6 +66,7 @@ export default class AddExpense extends React.Component {
                 <Text style={styles.header}>Expense</Text>
                 <Text style={styles.small}>Only numbers (0 - 9) allowed</Text>
                 <TextInput
+                    autoFocus={true}
                     numberOfLines={1}
                     maxLength={20}
                     keyboardType={'numeric'}
@@ -64,7 +75,12 @@ export default class AddExpense extends React.Component {
                 />
                 {emptyInputField && <Text style={styles.requiredField}>Required</Text>}
                 <View style={styles.fillSpace}></View>
-                <Button title="Add" onPress={this.onAddExpense} disabled={emptyInputField} />
+                <Button
+                    color={btnColor}
+                    title="Add"
+                    onPress={this.onAddExpense}
+                    disabled={emptyInputField}
+                />
             </View>
         );
     };

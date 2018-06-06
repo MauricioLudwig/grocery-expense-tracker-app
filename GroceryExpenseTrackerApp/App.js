@@ -11,7 +11,7 @@ Promise.all([
 
   Icon.getImageSource("trending-up", 30),
   Icon.getImageSource("home", 30),
-  Icon.getImageSource("settings", 30),
+  Icon.getImageSource("settings", 30)
 
 ]).then(sources => {
 

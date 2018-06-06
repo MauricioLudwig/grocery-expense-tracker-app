@@ -1,0 +1,1 @@
+export const btnColor = "#D32F2F";
