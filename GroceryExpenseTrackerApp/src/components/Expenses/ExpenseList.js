@@ -20,10 +20,10 @@ export default class ExpenseList extends React.Component {
                     data={this.props.expenses}
                     renderItem={(item) => (
                         <ExpenseItem
-                            key={item.index}
                             item={item.item}
                         />
                     )}
+                    keyExtractor={(item, index) => index.toString()}
                 />
                 <Button
                     color={btnColor}
@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
         flex: 1
     },
     flatList: {
-        marginBottom: 10
+        marginBottom: 5
     }
 });

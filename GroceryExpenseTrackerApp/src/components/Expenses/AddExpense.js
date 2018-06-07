@@ -7,6 +7,7 @@ import {
     Button
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
+import { material } from 'react-native-typography';
 
 import { btnColor } from '../../styling/styling';
 import Icon from 'react-native-vector-icons/EvilIcons';
@@ -52,8 +53,8 @@ export default class AddExpense extends React.Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.header}>Date</Text>
-                <Text style={styles.small}>Day of purchase, click field to change</Text>
+                <Text style={material.body2}>Date</Text>
+                <Text style={material.caption}>Day of purchase, click field to change</Text>
                 <DatePicker
                     style={styles.datepicker}
                     iconComponent={customIconComponent}
@@ -63,8 +64,8 @@ export default class AddExpense extends React.Component {
                     date={this.state.date}
                     onDateChange={(date) => { this.setState({ date }) }}
                 />
-                <Text style={styles.header}>Expense</Text>
-                <Text style={styles.small}>Only numbers (0 - 9) allowed</Text>
+                <Text style={material.body2}>Expense</Text>
+                <Text style={material.caption}>Only numbers (0 - 9) allowed</Text>
                 <TextInput
                     autoFocus={true}
                     numberOfLines={1}
@@ -73,7 +74,7 @@ export default class AddExpense extends React.Component {
                     onChangeText={(text) => this.onChangeText(text)}
                     value={this.state.expense}
                 />
-                {emptyInputField && <Text style={styles.requiredField}>Required</Text>}
+                {emptyInputField && <Text style={styles.requiredField}>required</Text>}
                 <View style={styles.fillSpace}></View>
                 <Button
                     color={btnColor}
@@ -92,23 +93,15 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20
     },
-    header: {
-        fontWeight: 'bold',
-    },
-    small: {
-        fontSize: 10,
-    },
     datepicker: {
         width: '100%',
         marginTop: 5,
         marginBottom: 20
     },
-    numberInput: {
-
-    },
     requiredField: {
         fontSize: 10,
-        color: 'red',
+        color: 'darkred',
+        fontWeight: 'bold',
         marginLeft: 5
     },
     fillSpace: {

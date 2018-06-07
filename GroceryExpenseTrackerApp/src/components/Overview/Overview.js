@@ -68,9 +68,7 @@ export default class Overview extends React.Component {
             title: 'Add New Expense',
             passProps: {
                 addExpenseHandler: this.addExpenseHandler
-            },
-            animated: true,
-            animationType: 'slide-horizontal'
+            }
         });
     };
 
@@ -91,8 +89,7 @@ export default class Overview extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 20
+        flex: 1
     },
     topSection: {
         flex: 1
