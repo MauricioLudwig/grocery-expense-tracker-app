@@ -12,6 +12,10 @@ import ExpenseList from '../Expenses/ExpenseList';
 
 export default class Overview extends React.Component {
 
+    static navigatorStyle = {
+        navBarTitleTextCentered: true
+    };
+
     state = {
         expenses: []
     };

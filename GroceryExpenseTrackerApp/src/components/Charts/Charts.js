@@ -12,6 +12,10 @@ import Pie from './Pie';
 
 export default class Charts extends React.Component {
 
+    static navigatorStyle = {
+        navBarTitleTextCentered: true
+    };
+
     state = {
         data: []
     };

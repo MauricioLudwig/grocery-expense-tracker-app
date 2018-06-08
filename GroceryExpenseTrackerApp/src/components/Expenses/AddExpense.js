@@ -14,6 +14,10 @@ import { btnColor } from '../../styling/styling';
 
 export default class AddExpense extends React.Component {
 
+    static navigatorStyle = {
+        navBarTitleTextCentered: true
+    };
+
     state = {
         expense: '',
         date: ''
