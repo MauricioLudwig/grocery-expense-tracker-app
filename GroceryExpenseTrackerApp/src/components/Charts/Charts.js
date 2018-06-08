@@ -6,8 +6,9 @@ import {
     Text,
     AsyncStorage
 } from 'react-native';
-import { material } from 'react-native-typography';
+import { Card } from 'react-native-elements';
 
+// App components
 import Line from './Line';
 import Pie from './Pie';
 
@@ -56,14 +57,12 @@ export default class Charts extends React.Component {
         return (
             <ScrollView style={styles.container}>
                 {this.state.expenses.length > 0 && this.state.expenses.map((item) => (<Text key={item.expense}>{item.expense}</Text>))}
-                <View style={styles.card}>
-                    <Text style={material.caption}>Monthly Overview</Text>
+                <Card title="Month Overview">
                     <Line data={[1, 2, 3, 1]} />
-                </View>
-                <View style={styles.card}>
-                    <Text style={material.caption}>Yearly Overview</Text>
+                </Card>
+                <Card title="Year Overview">
                     <Pie />
-                </View>
+                </Card>
             </ScrollView>
         );
     };
@@ -74,9 +73,4 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-    card: {
-        backgroundColor: '#eee',
-        margin: 10,
-        padding: 10
-    }
 });
