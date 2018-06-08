@@ -4,6 +4,7 @@ import {
     Text,
     StyleSheet,
     Button,
+    AsyncStorage
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/Feather';
@@ -21,44 +22,37 @@ export default class Overview extends React.Component {
     };
 
     componentWillMount() {
-        this.setState({
-            expenses: [
-                {
-                    date: '2015-05-15',
-                    expense: 50,
-                },
-                {
-                    date: '2017-07-15',
-                    expense: 30,
-                },
-                {
-                    date: '2018-05-15',
-                    expense: 25,
-                },
-                {
-                    date: '2018-05-15',
-                    expense: 25,
-                },
-                {
-                    date: '2018-05-15',
-                    expense: 25,
-                },
-                {
-                    date: '2018-05-15',
-                    expense: 25,
-                },
-                {
-                    date: '2018-05-15',
-                    expense: 25,
-                }
-            ]
-        });
+        this.getData();
     };
+
+    async getData() {
+        try {
+            let data = await AsyncStorage.getItem('@LocalStorage:key');
+            if (!data) {
+                data = [];
+            } else {
+                data = JSON.parse(data);
+            }
+            this.setState({
+                expenses: data
+            });
+        } catch (error) {
+            alert('Could not fetch data from local storage');
+        };
+    };
+
+    async setData() {
+        try {
+            await AsyncStorage.setItem('@LocalStorage:key', JSON.stringify(this.state.expenses));
+        } catch (error) {
+            alert('Unable to save data to local storage');
+        };
+    }
 
     addExpenseHandler = (newExpense) => {
         this.setState(prevState => ({
             expenses: prevState.expenses.concat(newExpense)
-        }));
+        }), this.setData);
     };
 
     launchAddExpenseScreen = () => {
