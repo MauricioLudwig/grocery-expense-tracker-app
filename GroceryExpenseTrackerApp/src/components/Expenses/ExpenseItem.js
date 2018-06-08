@@ -1,9 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import {
+    View,
+    StyleSheet,
+    Text,
+    TouchableOpacity
+} from 'react-native';
 
 export default class ExpenseItem extends React.Component {
 
-    render(){
+    render() {
         return (
             <TouchableOpacity style={styles.container}>
                 <Text>{this.props.item.date}</Text>

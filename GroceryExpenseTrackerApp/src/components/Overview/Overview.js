@@ -52,11 +52,6 @@ export default class Overview extends React.Component {
     };
 
     addExpenseHandler = (newExpense) => {
-        this.props.navigator.resetTo({
-            screen: 'groceryexpensetracker.OverviewTabScreen',
-            title: 'Overview'
-        });
-
         this.setState(prevState => ({
             expenses: prevState.expenses.concat(newExpense)
         }));
@@ -68,7 +63,9 @@ export default class Overview extends React.Component {
             title: 'Add New Expense',
             passProps: {
                 addExpenseHandler: this.addExpenseHandler
-            }
+            },
+            animated: true,
+            animationType: 'slide-horizontal'
         });
     };
 
@@ -76,7 +73,7 @@ export default class Overview extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={styles.topSection}>
-                    <Text>Overview Screen, Length: {this.state.expenses.length}</Text>
+                    <Text>Overview Screen, FlatList Length: {this.state.expenses.length}</Text>
                 </View>
                 <View style={styles.bottomSection}>
                     <ExpenseList expenses={this.state.expenses} launchAddExpenseScreen={this.launchAddExpenseScreen} />

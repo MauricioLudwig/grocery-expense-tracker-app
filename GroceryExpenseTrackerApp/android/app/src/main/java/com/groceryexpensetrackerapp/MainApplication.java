@@ -10,6 +10,7 @@ import com.facebook.soloader.SoLoader;
 
 import com.reactnativenavigation.NavigationApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.horcrux.svg.SvgPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,13 +27,19 @@ public class MainApplication extends NavigationApplication {
          // Add additional packages you require here
          // No need to add RnnPackage and MainReactPackage
          return Arrays.<ReactPackage>asList(
-              new VectorIconsPackage()
+              new VectorIconsPackage(),
+              new SvgPackage()
          );
      }
 
      @Override
      public List<ReactPackage> createAdditionalReactPackages() {
          return getPackages();
+     }
+
+     @Override
+     public String getJSMainModuleName(){
+         return "index";
      }
   
 }

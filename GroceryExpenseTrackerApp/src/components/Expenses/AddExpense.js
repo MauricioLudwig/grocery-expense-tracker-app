@@ -8,9 +8,9 @@ import {
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { material } from 'react-native-typography';
+import Icon from 'react-native-vector-icons/EvilIcons';
 
 import { btnColor } from '../../styling/styling';
-import Icon from 'react-native-vector-icons/EvilIcons';
 
 export default class AddExpense extends React.Component {
 
@@ -25,7 +25,7 @@ export default class AddExpense extends React.Component {
         let day = today.getDate();
         let month = today.getMonth() + 1;
         let year = today.getFullYear();
-        let formatToday = `${year}-${month}-${day}`;
+        let formatToday = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
 
         this.setState({
             date: formatToday
@@ -44,6 +44,7 @@ export default class AddExpense extends React.Component {
             expense: this.state.expense
         };
         this.props.addExpenseHandler(newExpense);
+        this.props.navigator.pop();
     };
 
     render() {
