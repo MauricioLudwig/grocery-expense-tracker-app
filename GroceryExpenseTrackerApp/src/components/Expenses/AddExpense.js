@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     View,
-    Text,
     TextInput,
     StyleSheet,
     Button
@@ -9,6 +8,7 @@ import {
 import DatePicker from 'react-native-datepicker';
 import { material } from 'react-native-typography';
 import Icon from 'react-native-vector-icons/EvilIcons';
+import { FormLabel, Card } from 'react-native-elements';
 
 import { btnColor } from '../../styling/styling';
 
@@ -24,27 +24,23 @@ export default class AddExpense extends React.Component {
     };
 
     componentWillMount() {
-
         let today = new Date();
         let day = today.getDate();
         let month = today.getMonth() + 1;
         let year = today.getFullYear();
-        let formatToday = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+        let shortDate = `${year}-${month}-${day}`;
 
         this.setState({
-            date: formatToday
+            date: shortDate
         });
     };
 
-    onChangeText = (text) => {
-        this.setState({
-            expense: text
-        })
-    };
-
     onAddExpense = () => {
+        let date = this.state.date.split('-');
         let newExpense = {
-            date: this.state.date,
+            year: date[0],
+            month: date[1],
+            day: date[2],
             expense: this.state.expense
         };
         this.props.addExpenseHandler(newExpense);
@@ -53,40 +49,40 @@ export default class AddExpense extends React.Component {
 
     render() {
 
-        let emptyInputField = this.state.expense.length < 1;
-        const customIconComponent = <Icon name="calendar" size={25}></Icon>
+        const emptyInputField = this.state.expense.length < 1;
+        const calendarIcon = <Icon name="calendar" size={30}></Icon>;
 
         return (
             <View style={styles.container}>
-                <Text style={material.body2}>Date</Text>
-                <Text style={material.caption}>Day of purchase, click field to change</Text>
-                <DatePicker
-                    style={styles.datepicker}
-                    iconComponent={customIconComponent}
-                    mode="date"
-                    placeholder="Select date"
-                    format="YYYY-MM-DD"
-                    date={this.state.date}
-                    onDateChange={(date) => { this.setState({ date }) }}
-                />
-                <Text style={material.body2}>Expense</Text>
-                <Text style={material.caption}>Only numbers (0 - 9) allowed</Text>
-                <TextInput
-                    autoFocus={true}
-                    numberOfLines={1}
-                    maxLength={20}
-                    keyboardType={'numeric'}
-                    onChangeText={(text) => this.onChangeText(text)}
-                    value={this.state.expense}
-                />
-                {emptyInputField && <Text style={styles.requiredField}>required</Text>}
+                <Card title="Day of Purchase">
+                    <DatePicker
+                        style={styles.datepicker}
+                        iconComponent={calendarIcon}
+                        mode="date"
+                        placeholder="Select date"
+                        format="YYYY-M-D"
+                        date={this.state.date}
+                        onDateChange={(date) => { this.setState({ date }) }}
+                    />
+                </Card>
+                <Card title="Expense">
+                    <TextInput
+                        numberOfLines={1}
+                        maxLength={20}
+                        keyboardType={'numeric'}
+                        onChangeText={(text) => { this.setState({ expense: text }) }}
+                        value={this.state.expense}
+                    />
+                </Card>
                 <View style={styles.fillSpace}></View>
-                <Button
-                    color={btnColor}
-                    title="Add"
-                    onPress={this.onAddExpense}
-                    disabled={emptyInputField}
-                />
+                <View style={styles.addBtnView}>
+                    <Button
+                        color={btnColor}
+                        title="Add"
+                        onPress={this.onAddExpense}
+                        disabled={emptyInputField}
+                    />
+                </View>
             </View>
         );
     };
@@ -96,20 +92,14 @@ export default class AddExpense extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20
     },
     datepicker: {
         width: '100%',
-        marginTop: 5,
-        marginBottom: 20
-    },
-    requiredField: {
-        fontSize: 10,
-        color: 'darkred',
-        fontWeight: 'bold',
-        marginLeft: 5
     },
     fillSpace: {
         flex: 1
+    },
+    addBtnView: {
+        padding: 20
     }
 });
