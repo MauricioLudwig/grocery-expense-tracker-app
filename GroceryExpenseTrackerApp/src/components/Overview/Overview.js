@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/Feather';
+import { Card } from 'react-native-elements';
 
 import ExpenseList from '../Expenses/ExpenseList';
 
@@ -71,7 +72,9 @@ export default class Overview extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={styles.topSection}>
-                    <Text>Overview Screen, FlatList Length: {this.state.expenses.length}</Text>
+                    <Card>
+                        <Text>Budget: 2000</Text>
+                    </Card>
                 </View>
                 <View style={styles.bottomSection}>
                     <ExpenseList expenses={this.state.expenses} launchAddExpenseScreen={this.launchAddExpenseScreen} />

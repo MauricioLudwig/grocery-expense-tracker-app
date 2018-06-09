@@ -29,9 +29,9 @@ export default class Settings extends React.Component {
 
     render() {
 
-        const libraries = getLibraries().map((library) => {
+        const libraries = getLibraries().map((library, index) => {
             return (
-                <View>
+                <View key={index}>
                     <Text>{library.title}</Text>
                     <Text>{library.url}</Text>
                     <Divider style={styles.divider} />
