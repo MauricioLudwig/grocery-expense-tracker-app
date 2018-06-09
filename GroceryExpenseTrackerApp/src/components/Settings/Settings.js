@@ -11,12 +11,14 @@ import { Card, Divider } from 'react-native-elements';
 import { material } from 'react-native-typography';
 
 import { getLibraries } from '../../constants';
-import { btnColor } from '../../styling/styling';
+import { btnColor, toolbarColor } from '../../styling/styling';
 
 export default class Settings extends React.Component {
 
     static navigatorStyle = {
-        navBarTitleTextCentered: true
+        navBarTitleTextCentered: true,
+        navBarTextColor: toolbarColor.color,
+        navBarBackgroundColor: toolbarColor.backgroundColor
     };
 
     state = {
@@ -60,7 +62,7 @@ export default class Settings extends React.Component {
                     <Text>Programming & Design</Text>
                     <Divider style={styles.divider} />
                     <Text>Mauricio Ludwig</Text>
-                    <Text>Mauricio.ludwig@outlook.com</Text>
+                    <Text>mauricio.ludwig@outlook.com</Text>
                 </Card>
                 <Card title="Third-Party Libraries">
                     {libraries}

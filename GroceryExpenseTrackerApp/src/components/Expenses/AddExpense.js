@@ -10,12 +10,14 @@ import { material } from 'react-native-typography';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import { FormLabel, Card } from 'react-native-elements';
 
-import { btnColor } from '../../styling/styling';
+import { btnColor, toolbarColor } from '../../styling/styling';
 
 export default class AddExpense extends React.Component {
 
     static navigatorStyle = {
-        navBarTitleTextCentered: true
+        navBarTitleTextCentered: true,
+        navBarTextColor: toolbarColor.color,
+        navBarBackgroundColor: toolbarColor.backgroundColor
     };
 
     state = {

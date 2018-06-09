@@ -8,14 +8,16 @@ import {
 } from 'react-native';
 import { Card } from 'react-native-elements';
 
-// App components
 import Line from './Line';
 import Pie from './Pie';
+import { toolbarColor } from '../../styling/styling';
 
 export default class Charts extends React.Component {
 
     static navigatorStyle = {
-        navBarTitleTextCentered: true
+        navBarTitleTextCentered: true,
+        navBarTextColor: toolbarColor.color,
+        navBarBackgroundColor: toolbarColor.backgroundColor
     };
 
     state = {

@@ -11,11 +11,14 @@ import Icon from 'react-native-vector-icons/Feather';
 import { Card } from 'react-native-elements';
 
 import ExpenseList from '../Expenses/ExpenseList';
+import { toolbarColor } from '../../styling/styling';
 
 export default class Overview extends React.Component {
 
     static navigatorStyle = {
-        navBarTitleTextCentered: true
+        navBarTitleTextCentered: true,
+        navBarTextColor: toolbarColor.color,
+        navBarBackgroundColor: toolbarColor.backgroundColor
     };
 
     state = {
