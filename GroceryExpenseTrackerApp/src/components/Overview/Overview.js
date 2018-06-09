@@ -9,9 +9,11 @@ import {
 import { Navigation } from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/Feather';
 import { Card } from 'react-native-elements';
+import { Dropdown } from 'react-native-material-dropdown';
 
 import ExpenseList from '../Expenses/ExpenseList';
 import { toolbarColor } from '../../styling/styling';
+import { getMonths, getYears } from '../../constants';
 
 export default class Overview extends React.Component {
 
@@ -22,11 +24,14 @@ export default class Overview extends React.Component {
     };
 
     state = {
-        expenses: []
+        expenses: [],
     };
 
     componentWillMount() {
         this.getData();
+        this.setState({
+
+        });
     };
 
     async getData() {
@@ -97,5 +102,5 @@ const styles = StyleSheet.create({
     },
     bottomSection: {
         flex: 4
-    }
+    },
 });

@@ -58,7 +58,6 @@ export default class Charts extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                {this.state.expenses.length > 0 && this.state.expenses.map((item) => (<Text key={item.expense}>{item.expense}</Text>))}
                 <Card title="Month Overview">
                     <Line data={[1, 2, 3, 1]} />
                 </Card>

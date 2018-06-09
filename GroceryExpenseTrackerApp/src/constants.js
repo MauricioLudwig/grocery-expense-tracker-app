@@ -26,3 +26,17 @@ export const getLibraries = () => {
         }
     ];
 };
+
+export const getYears = () => {
+
+    const years = [];
+    const currentYear = (new Date).getFullYear();
+
+    for (let i = 0; i < 5; i++) {
+        years.push({
+            value: (currentYear - 1)
+        });
+    }
+
+    return years;
+};
