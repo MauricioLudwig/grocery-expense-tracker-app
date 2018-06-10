@@ -5,7 +5,8 @@ import {
     Text,
     TextInput,
     Button,
-    StyleSheet
+    StyleSheet,
+    AsyncStorage
 } from 'react-native';
 import { Card, Divider } from 'react-native-elements';
 import { material } from 'react-native-typography';
@@ -22,12 +23,51 @@ export default class Settings extends React.Component {
     };
 
     state = {
-        value: '1500'
+        value: ''
     };
+
+    componentWillMount() {
+        this.getBudget()
+            .then(res => {
+                this.setState({
+                    value: res
+                });
+            });
+    }
 
     onUpdateBudget = () => {
 
+        let invalidNumber = isNaN(this.state.value);
+
+        if (!invalidNumber) {
+            this.saveBudget()
+                .then(() => {
+                    alert(`Budget (${this.state.value}) set!`);
+                });
+        } else {
+            alert(`${this.state.value} is not a valid number, try again...`);
+        }
     };
+
+    async getBudget() {
+        try {
+            let budget = await AsyncStorage.getItem('@MonthlyBudget:key');
+            if (!budget) {
+                budget = '0'
+            }
+            return budget;
+        } catch (error) {
+            alert('Could not fetch data from local storage');
+        };
+    }
+
+    async saveBudget() {
+        try {
+            await AsyncStorage.setItem('@MonthlyBudget:key', this.state.value);
+        } catch (error) {
+            alert('Unable to save data to local storage');
+        };
+    }
 
     render() {
 
@@ -59,10 +99,11 @@ export default class Settings extends React.Component {
                     />
                 </Card>
                 <Card title="Credits">
-                    <Text>Programming & Design</Text>
-                    <Divider style={styles.divider} />
                     <Text>Mauricio Ludwig</Text>
                     <Text>mauricio.ludwig@outlook.com</Text>
+                    <Text>https://github.com/MauricioLudwig</Text>
+                    <Divider style={styles.divider} />
+                    <Text>This app was built with React Native (0.55)</Text>
                 </Card>
                 <Card title="Third-Party Libraries">
                     {libraries}
@@ -75,7 +116,6 @@ export default class Settings extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginBottom: 20
     },
     divider: {
         marginTop: 10,

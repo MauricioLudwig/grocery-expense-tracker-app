@@ -1,6 +1,7 @@
 import React from 'react';
 import {
     View,
+    Text,
     TextInput,
     StyleSheet,
     Button
@@ -17,7 +18,8 @@ export default class AddExpense extends React.Component {
     static navigatorStyle = {
         navBarTitleTextCentered: true,
         navBarTextColor: toolbarColor.color,
-        navBarBackgroundColor: toolbarColor.backgroundColor
+        navBarBackgroundColor: toolbarColor.backgroundColor,
+        navBarButtonColor: toolbarColor.color
     };
 
     state = {
@@ -52,11 +54,12 @@ export default class AddExpense extends React.Component {
     render() {
 
         const emptyInputField = this.state.expense.length < 1;
-        const calendarIcon = <Icon name="calendar" size={30}></Icon>;
+        const calendarIcon = <Icon name="calendar" color='red' size={30}></Icon>;
 
         return (
             <View style={styles.container}>
                 <Card title="Day of Purchase">
+                    <Text style={material.caption}>Click field to change. Format is YYYY-MM-DD</Text>
                     <DatePicker
                         style={styles.datepicker}
                         iconComponent={calendarIcon}
@@ -97,6 +100,7 @@ const styles = StyleSheet.create({
     },
     datepicker: {
         width: '100%',
+        marginTop: 10
     },
     fillSpace: {
         flex: 1

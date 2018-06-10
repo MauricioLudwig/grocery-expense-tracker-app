@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 
 import ExpenseItem from '../Expenses/ExpenseItem';
-import { btnColor } from '../../styling/styling';
 
 export default class ExpenseList extends React.Component {
 
@@ -24,11 +23,6 @@ export default class ExpenseList extends React.Component {
                         />
                     )}
                     keyExtractor={(item, index) => index.toString()}
-                />
-                <Button
-                    color={btnColor}
-                    title="Add Expense"
-                    onPress={() => this.props.launchAddExpenseScreen()}
                 />
             </View>
         );
