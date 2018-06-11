@@ -4,8 +4,7 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    Picker,
-    AsyncStorage
+    Picker
 } from 'react-native';
 import { Card } from 'react-native-elements';
 
@@ -22,92 +21,29 @@ export default class Charts extends Component {
         navBarBackgroundColor: toolbarColor.backgroundColor
     };
 
-    onNavigatorEvent(event) {
-        if (event.id === 'bottomTabSelected') {
-        }
-    }
+    state = {
+        selectedYear: 0,
+        selectedMonth: 0
+    };
 
     constructor(props) {
         super(props);
-        state = {
-            dailyExpenses: [],
-            monthlyExpenses: [],
-            selectedYear: 0,
-            selectedMonth: 0
-        };
-        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     componentWillMount() {
-
         let today = new Date();
+        let year = today.getFullYear();
+        let month = today.getMonth() + 1;
 
         this.setState({
-            selectedYear: today.getFullYear(),
-            selectedMonth: (today.getMonth() + 1)
-        });
-    }
-
-    async getListData() {
-        try {
-            let data = await AsyncStorage.getItem('@LocalStorage:key');
-            if (!data) {
-                data = [];
-            } else {
-                data = JSON.parse(data);
-            }
-            return data;
-        } catch (error) {
-            alert('Operation failed: unable to retrieve data.');
-        };
-    };
-
-    onYearChange = (value) => {
-        this.updateChartData(value, this.state.selectedMonth)
-    }
-
-    onMonthChange = (value) => {
-        this.updateChartData(this.state.selectedYear, value);
-    }
-
-    updateChartData = (year) => {
-
-        this.getListData()
-            .then(((res) => {
-                this.updatePieChart(res, year);
-            }))
-
-    }
-
-    updatePieChart = (res, year) => {
-
-        let monthlyExpenses = [];
-
-        for (let i = 1; i < 13; i++) {
-            let sum = 0;
-            let monthExpenses = res
-                .filter(o => o.year == year && o.month == i)
-                .map(o => o.expense);
-
-            for (let y = 0; y < monthExpenses.length; y++) {
-                sum += monthExpenses[y];
-            }
-
-            monthlyExpenses.push({
-                month: i,
-                sum: sum
-            });
-        }
-
-        this.setState({
-            monthlyExpenses: monthlyExpenses,
             selectedYear: year,
+            selectedMonth: month
         });
-
     }
 
     render() {
 
+        // Picker with Year values
         const yearItems = getYears().map((year, index) => (
             <Picker.Item
                 key={index}
@@ -116,6 +52,7 @@ export default class Charts extends Component {
             />
         ));
 
+        // Picker with Month values
         const monthItems = getMonths().map((month, index) => (
             <Picker.Item
                 key={index}
@@ -130,7 +67,7 @@ export default class Charts extends Component {
                     <View style={styles.pickers}>
                         <Picker
                             selectedValue={this.state.selectedYear}
-                            onValueChange={(value) => this.updateChartData(value)}
+                            onValueChange={(value) => { }}
                             prompt="Year"
                             style={styles.picker}
                         >
@@ -138,7 +75,7 @@ export default class Charts extends Component {
                         </Picker>
                         <Picker
                             selectedValue={this.state.selectedMonth}
-                            onValueChange={(value) => this.onMonthChange(value)}
+                            onValueChange={(value) => { }}
                             prompt="Month"
                             style={styles.picker}
                         >
@@ -150,10 +87,7 @@ export default class Charts extends Component {
                     <Line data={[1, 2, 3, 1]} />
                 </Card>
                 <Card title="Year Overview">
-                    {this.state.monthlyExpenses == undefined
-                        ? <Text>No data available</Text>
-                        : <Pie data={this.state.monthlyExpenses} />
-                    }
+                    <Pie data={[1, 2, 3, 1]} />
                 </Card>
             </ScrollView>
         );
