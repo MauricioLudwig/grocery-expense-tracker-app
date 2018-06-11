@@ -3,15 +3,15 @@ import {
     View,
     ScrollView,
     StyleSheet,
-    Text,
-    Picker
+    Text
 } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Card, Divider } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Feather';
 
-import Line from './Line';
 import Pie from './Pie';
-import { getYears, getMonths } from '../../constants';
 import { btnColor, toolbarColor } from '../../styling';
+import { getMonths } from '../../constants';
+import Realm, { getExpensesForYear } from '../../database/realm';
 
 export default class Charts extends Component {
 
@@ -22,73 +22,64 @@ export default class Charts extends Component {
     };
 
     state = {
-        selectedYear: 0,
-        selectedMonth: 0
+        currentYear: (new Date()).getFullYear(),
+        currentMonth: ((new Date()).getMonth() + 1),
+        pieData: []
     };
 
     constructor(props) {
         super(props);
-    }
 
-    componentWillMount() {
-        let today = new Date();
-        let year = today.getFullYear();
-        let month = today.getMonth() + 1;
-
-        this.setState({
-            selectedYear: year,
-            selectedMonth: month
+        this.reloadData();
+        Realm.addListener('change', () => {
+            this.reloadData();
         });
     }
 
+    reloadData = () => {
+        getExpensesForYear().then((res) => {
+            this.setState({ pieData: res })
+        }).catch((error) => {
+            this.setState({ pieData: [] })
+            alert(error);
+        });
+    };
+
     render() {
 
-        // Picker with Year values
-        const yearItems = getYears().map((year, index) => (
-            <Picker.Item
-                key={index}
-                label={year.toString()}
-                value={year}
-            />
-        ));
-
-        // Picker with Month values
-        const monthItems = getMonths().map((month, index) => (
-            <Picker.Item
-                key={index}
-                label={month.label}
-                value={month.value}
-            />
-        ));
+        const months = getMonths();
+        const monthCardLabel = `${months[this.state.currentMonth - 1].label}`;
+        const yearCardLabel = `${this.state.currentYear}`
+        const pieChart = (
+            <ScrollView
+                horizontal={true}
+            >
+                <Pie data={this.state.pieData} />
+            </ScrollView>
+        );
+        const textOutput = (
+            <Card>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                    <Icon style={{ paddingRight: 10 }} name="alert-circle" size={25} />
+                    <Text style={styles.emptyListText}>No data available to display.</Text>
+                </View>
+            </Card>
+        )
 
         return (
             <ScrollView style={styles.container}>
-                <Card title="Filter">
-                    <View style={styles.pickers}>
-                        <Picker
-                            selectedValue={this.state.selectedYear}
-                            onValueChange={(value) => { }}
-                            prompt="Year"
-                            style={styles.picker}
-                        >
-                            {yearItems}
-                        </Picker>
-                        <Picker
-                            selectedValue={this.state.selectedMonth}
-                            onValueChange={(value) => { }}
-                            prompt="Month"
-                            style={styles.picker}
-                        >
-                            {monthItems}
-                        </Picker>
-                    </View>
+                <Card title={monthCardLabel}>
+                    <Text>Have a look at your daily expenses for the current month.</Text>
                 </Card>
-                <Card title="Month Overview">
-                    <Line data={[1, 2, 3, 1]} />
+                <Divider style={styles.divider} />
+                <Card title={yearCardLabel}>
+                    <Text>Have a look at your daily expenses for the current year.</Text>
                 </Card>
-                <Card title="Year Overview">
-                    <Pie data={[1, 2, 3, 1]} />
-                </Card>
+                {
+                    this.state.pieData.length > 0
+                        ? pieChart
+                        : textOutput
+                }
             </ScrollView>
         );
     };
@@ -99,11 +90,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-    pickers: {
-        flex: 1,
-        flexDirection: 'row'
+    divider: {
+        marginTop: 5,
+        marginBottom: 5,
+        marginLeft: 15,
+        marginRight: 15,
+        backgroundColor: 'lightgray'
     },
-    picker: {
-        width: '50%'
+    emptyListText: {
+        textAlign: 'center',
+        fontSize: 16
     }
 });

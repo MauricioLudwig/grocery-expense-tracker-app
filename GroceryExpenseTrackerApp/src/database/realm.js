@@ -1,4 +1,5 @@
 import Realm from 'realm';
+import { getMonths } from '../constants';
 
 // Schema name
 export const EXPENSE_SCHEMA = "Expense";
@@ -31,6 +32,51 @@ export const getExpenses = () => new Promise((resolve, reject) => {
         let limitExpenses = expenses.slice(0, 100)
         resolve(limitExpenses);
     }).catch((error) => {
+        reject(error);
+    });
+});
+
+// Get all expenses for current year
+export const getExpensesForYear = () => new Promise((resolve, reject) => {
+    Realm.open(databaseOptions).then(realm => {
+
+        // Filter all expenses for the given year
+        let today = new Date();
+        let currentYear = today.getFullYear();
+        let currentMonth = today.getMonth() + 1;
+        let expenses = realm.objects(EXPENSE_SCHEMA)
+            .filtered(`year == ${currentYear}`);
+
+        let result = [];
+        let months = getMonths();
+
+        for (let i = 0; i < months.length; i++) {
+
+            let monthExpense = expenses
+                .filter(o => o.month == (i + 1))
+                .map(m => m);
+
+            if (monthExpense.length < 1) {
+                continue;
+            }
+
+            let sum = 0;
+
+            for (let y = 0; y < monthExpense.length; y++) {
+                sum += monthExpense[y].expense;
+            };
+
+            if (sum > 0) {
+                result.push({
+                    monthValue: months[i].value,
+                    monthLabel: months[i].label,
+                    sum: sum
+                });
+            }
+
+        };
+        resolve(result);
+    }).catch(error => {
         reject(error);
     });
 });
