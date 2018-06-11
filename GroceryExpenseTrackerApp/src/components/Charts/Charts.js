@@ -8,10 +8,11 @@ import {
 import { Card, Divider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Feather';
 
+import Bar from './Bar';
 import Pie from './Pie';
 import { btnColor, toolbarColor } from '../../styling';
 import { getMonths } from '../../constants';
-import Realm, { getExpensesForYear } from '../../database/realm';
+import Realm, { getExpensesForYear, getExpensesForMonth } from '../../database/realm';
 
 export default class Charts extends Component {
 
@@ -24,7 +25,8 @@ export default class Charts extends Component {
     state = {
         currentYear: (new Date()).getFullYear(),
         currentMonth: ((new Date()).getMonth() + 1),
-        pieData: []
+        pieData: [],
+        barData: []
     };
 
     constructor(props) {
@@ -41,7 +43,12 @@ export default class Charts extends Component {
             this.setState({ pieData: res })
         }).catch((error) => {
             this.setState({ pieData: [] })
-            alert(error);
+        });
+
+        getExpensesForMonth().then((res) => {
+            this.setState({ barData: res })
+        }).catch(error => {
+            this.setState({ barData: [] })
         });
     };
 
@@ -66,11 +73,24 @@ export default class Charts extends Component {
             </Card>
         )
 
+        const barChart = (
+            <ScrollView
+                horizontal={true}
+            >
+                <Bar data={this.state.barData} />
+            </ScrollView>
+        );
+
         return (
             <ScrollView style={styles.container}>
                 <Card title={monthCardLabel}>
                     <Text>Have a look at your daily expenses for the current month.</Text>
                 </Card>
+                {
+                    this.state.pieData.length > 0
+                        ? barChart
+                        : textOutput
+                }
                 <Divider style={styles.divider} />
                 <Card title={yearCardLabel}>
                     <Text>Have a look at your daily expenses for the current year.</Text>

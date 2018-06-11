@@ -1,3 +1,4 @@
+import React from 'react';
 import Realm from 'realm';
 import { getMonths } from '../constants';
 
@@ -76,6 +77,25 @@ export const getExpensesForYear = () => new Promise((resolve, reject) => {
 
         };
         resolve(result);
+    }).catch(error => {
+        reject(error);
+    });
+});
+
+// Get daily expenses for current month
+export const getExpensesForMonth = () => new Promise((resolve, reject) => {
+    Realm.open(databaseOptions).then(realm => {
+
+        // Filter all expenses for the given year
+        let today = new Date();
+        let currentYear = today.getFullYear();
+        let currentMonth = today.getMonth() + 1;
+        let expenses = realm.objects(EXPENSE_SCHEMA)
+            .filtered(`year == ${currentYear} && month == ${currentMonth}`)
+            .sorted('day');
+
+        resolve(expenses);
+
     }).catch(error => {
         reject(error);
     });
