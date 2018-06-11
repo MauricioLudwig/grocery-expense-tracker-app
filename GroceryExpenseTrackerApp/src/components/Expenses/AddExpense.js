@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
     View,
+    StyleSheet,
     Text,
     TextInput,
-    StyleSheet,
     Button
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { material } from 'react-native-typography';
 import Icon from 'react-native-vector-icons/EvilIcons';
-import { FormLabel, Card } from 'react-native-elements';
+import { Card } from 'react-native-elements';
 
-import { btnColor, toolbarColor } from '../../styling/styling';
+import { btnColor, toolbarColor } from '../../styling';
+import { addExpense } from '../../database/realm';
 
-export default class AddExpense extends React.Component {
+export default class AddExpense extends Component {
 
     static navigatorStyle = {
         navBarTitleTextCentered: true,
@@ -23,11 +24,12 @@ export default class AddExpense extends React.Component {
     };
 
     state = {
-        expense: '',
-        date: ''
+        date: '',
+        expense: ''
     };
 
     componentWillMount() {
+
         let today = new Date();
         let day = today.getDate();
         let month = today.getMonth() + 1;
@@ -37,29 +39,44 @@ export default class AddExpense extends React.Component {
         this.setState({
             date: shortDate
         });
+
     };
 
     onAddExpense = () => {
+
         let date = this.state.date.split('-');
         let newExpense = {
-            year: date[0],
-            month: date[1],
-            day: date[2],
-            expense: this.state.expense
+            id: Math.floor(Date.now() / 1000),
+            expense: Number(this.state.expense),
+            year: Number(date[0]),
+            month: Number(date[1]),
+            day: Number(date[2])
         };
-        this.props.addExpenseHandler(newExpense);
+
+        addExpense(newExpense)
+            .then()
+            .catch((error) => {
+                alert(`Not able to add new expense. Error: ${error}`);
+            });
         this.props.navigator.pop();
+
+    };
+
+    onChangeText = (text) => {
+        this.setState({
+            expense: text.replace(/[^0-9]/g, '')
+        });
     };
 
     render() {
 
-        const emptyInputField = this.state.expense.length < 1;
+        const fieldIsEmpty = this.state.expense.length < 1;
         const calendarIcon = <Icon name="calendar" color='red' size={30}></Icon>;
 
         return (
             <View style={styles.container}>
                 <Card title="Day of Purchase">
-                    <Text style={material.caption}>Click field to change. Format is YYYY-MM-DD</Text>
+                    <Text style={material.caption}>Click field to change. Format is YYYY-MM-DD.</Text>
                     <DatePicker
                         style={styles.datepicker}
                         iconComponent={calendarIcon}
@@ -71,11 +88,12 @@ export default class AddExpense extends React.Component {
                     />
                 </Card>
                 <Card title="Expense">
+                    <Text style={material.caption}>Only integers are supported (0-9).</Text>
                     <TextInput
                         numberOfLines={1}
                         maxLength={20}
                         keyboardType={'numeric'}
-                        onChangeText={(text) => { this.setState({ expense: text }) }}
+                        onChangeText={(text) => this.onChangeText(text)}
                         value={this.state.expense}
                     />
                 </Card>
@@ -85,7 +103,7 @@ export default class AddExpense extends React.Component {
                         color={btnColor}
                         title="Add"
                         onPress={this.onAddExpense}
-                        disabled={emptyInputField}
+                        disabled={fieldIsEmpty}
                     />
                 </View>
             </View>
@@ -96,7 +114,7 @@ export default class AddExpense extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 1
     },
     datepicker: {
         width: '100%',
