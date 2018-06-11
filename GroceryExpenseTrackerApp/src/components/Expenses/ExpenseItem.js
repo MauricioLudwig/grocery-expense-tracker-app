@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
     View,
     StyleSheet,
     TouchableOpacity,
     Text,
-    Alert
+    Alert,
+    ToastAndroid
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 import { deleteExpense } from '../../database/realm';
 
-export default class ExpenseItem extends React.Component {
+export default class ExpenseItem extends Component {
 
     launchAlert = () => {
         Alert.alert(
@@ -19,7 +20,7 @@ export default class ExpenseItem extends React.Component {
             [
                 {
                     text: 'Cancel',
-                    onPress: () => {},
+                    onPress: () => { },
                     style: 'cancel'
                 },
                 {
@@ -37,6 +38,8 @@ export default class ExpenseItem extends React.Component {
             .catch(error => {
                 alert('Unable to delete item.');
             });
+
+        ToastAndroid.show('Expense was deleted.', ToastAndroid.SHORT);
     };
 
     render() {
@@ -62,5 +65,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 20,
+        borderBottomWidth: 1,
+        borderColor: '#d6d6d6'
     }
 });

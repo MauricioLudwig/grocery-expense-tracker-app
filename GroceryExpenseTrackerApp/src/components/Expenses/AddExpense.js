@@ -4,7 +4,8 @@ import {
     StyleSheet,
     Text,
     TextInput,
-    Button
+    Button,
+    ToastAndroid
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { material } from 'react-native-typography';
@@ -58,6 +59,7 @@ export default class AddExpense extends Component {
             .catch((error) => {
                 alert(`Not able to add new expense. Error: ${error}`);
             });
+        ToastAndroid.show('New expense was added.', ToastAndroid.SHORT);
         this.props.navigator.pop();
 
     };
@@ -71,7 +73,7 @@ export default class AddExpense extends Component {
     render() {
 
         const fieldIsEmpty = this.state.expense.length < 1;
-        const calendarIcon = <Icon name="calendar" color='red' size={30}></Icon>;
+        const calendarIcon = <Icon name="calendar" color={toolbarColor.backgroundColor} size={30}></Icon>;
 
         return (
             <View style={styles.container}>
@@ -88,7 +90,7 @@ export default class AddExpense extends Component {
                     />
                 </Card>
                 <Card title="Expense">
-                    <Text style={material.caption}>Only integers are supported (0-9).</Text>
+                    <Text style={material.caption}>Only integers are permitted (0-9).</Text>
                     <TextInput
                         numberOfLines={1}
                         maxLength={20}
@@ -100,7 +102,7 @@ export default class AddExpense extends Component {
                 <View style={styles.fillSpace}></View>
                 <View style={styles.addBtnView}>
                     <Button
-                        color={btnColor}
+                        color={btnColor('accent')}
                         title="Add"
                         onPress={this.onAddExpense}
                         disabled={fieldIsEmpty}

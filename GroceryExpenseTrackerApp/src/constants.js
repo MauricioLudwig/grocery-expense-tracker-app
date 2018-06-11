@@ -40,7 +40,7 @@ export const getYears = () => {
 
     for (let i = 0; i < 5; i++) {
         years.push((currentYear - i));
-    }
+    };
 
     return years;
 };

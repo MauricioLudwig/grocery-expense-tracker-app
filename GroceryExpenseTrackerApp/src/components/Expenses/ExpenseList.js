@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
     FlatList,
     View,
@@ -9,16 +9,9 @@ import {
 
 import ExpenseItem from '../Expenses/ExpenseItem';
 
-export default class ExpenseList extends React.Component {
-
-    renderSeparator = () => {
-        return (
-            <View style={styles.separator} />
-        );
-    };
+export default class ExpenseList extends Component {
 
     render() {
-
         return (
             <View style={styles.container}>
                 <FlatList
@@ -30,13 +23,12 @@ export default class ExpenseList extends React.Component {
                         />
                     )}
                     keyExtractor={(item) => item.id.toString()}
-                    ItemSeparatorComponent={this.renderSeparator}
                 />
             </View>
         );
-    }
+    };
 
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -44,9 +36,5 @@ const styles = StyleSheet.create({
     },
     flatList: {
         marginBottom: 5
-    },
-    separator: {
-        height: 1,
-        backgroundColor: '#ede3e3'
     }
 });

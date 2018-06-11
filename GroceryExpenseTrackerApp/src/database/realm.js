@@ -2,7 +2,6 @@ import Realm from 'realm';
 
 // Schema name
 export const EXPENSE_SCHEMA = "Expense";
-export const BUDGET_SCHEMA = "Budget";
 
 // Model & properties
 export const ExpenseSchema = {
@@ -17,27 +16,20 @@ export const ExpenseSchema = {
     }
 };
 
-export const BudgetSchema = {
-    name: BUDGET_SCHEMA,
-    primaryKey: 'id',
-    properties: {
-        id: 'int', // primary key
-        value: { type: 'int', default: 0 }
-    }
-};
-
-// Database options
+// DB options
 const databaseOptions = {
     path: 'groceryExpenseTrackerApp.realm',
-    schema: [ExpenseSchema, BudgetSchema],
+    schema: [ExpenseSchema],
     schemaVersion: 0 // Optional
 }
 
-// Get all expenses
+// Get all expenses from DB
 export const getExpenses = () => new Promise((resolve, reject) => {
     Realm.open(databaseOptions).then((realm) => {
         let expenses = realm.objects(EXPENSE_SCHEMA).sorted([['year', true], ['month', true], ['day', true], ['id', true]]);
-        resolve(expenses);
+        // Limit number of expenses to return to 100
+        let limitExpenses = expenses.slice(0, 100)
+        resolve(limitExpenses);
     }).catch((error) => {
         reject(error);
     });
@@ -65,6 +57,18 @@ export const deleteExpense = (expenseId) => new Promise((resolve, reject) => {
         });
     }).catch((error) => {
         reject(error);
+    });
+});
+
+// Clear DB
+export const clearDb = () => new Promise((resolve, reject) => {
+    Realm.open(databaseOptions).then((realm) => {
+        realm.write(() => {
+            realm.deleteAll();
+            resolve();
+        });
+    }).catch(error => {
+        reject(error)
     });
 });
 

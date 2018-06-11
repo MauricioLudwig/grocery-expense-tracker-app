@@ -6,14 +6,16 @@ import {
     Text,
     TextInput,
     Button,
-    AsyncStorage
+    Alert,
+    AsyncStorage,
+    ToastAndroid
 } from 'react-native';
 import { Card, Divider } from 'react-native-elements';
 import { material } from 'react-native-typography';
 
 import { getLibraries } from '../../constants';
 import { btnColor, toolbarColor } from '../../styling';
-import { getBudget } from '../../database/realm';
+import { getBudget, clearDb } from '../../database/realm';
 
 export default class Settings extends Component {
 
@@ -34,6 +36,43 @@ export default class Settings extends Component {
     };
 
     reloadBudget = () => {
+        // TODO
+    };
+
+    saveBudget = () => {
+        this.displayToast(`New budget set at ${this.state.value}.`);
+        this.setState({
+            value: ''
+        });
+    };
+
+    onDeleteDataHandler = () => {
+        Alert.alert(
+            'Reset App?',
+            'This action is irreversible.',
+            [
+                {
+                    text: 'Cancel',
+                    onPress: () => { },
+                    style: 'cancel'
+                },
+                {
+                    text: 'Delete',
+                    onPress: () => this.DeleteAppData(),
+                }
+            ],
+            { cancelable: true }
+        );
+    }
+
+    DeleteAppData = () => {
+        clearDb()
+            .then()
+            .catch(error => {
+                alert('Could not perform operation.');
+            });
+
+        this.displayToast('Application data was deleted.');
     };
 
     onChangeText = (text) => {
@@ -41,6 +80,10 @@ export default class Settings extends Component {
             value: text.replace(/[^0-9]/g, '')
         });
     };
+
+    displayToast = (msg) => {
+        ToastAndroid.show(msg, ToastAndroid.SHORT);
+    }
 
     render() {
 
@@ -58,7 +101,8 @@ export default class Settings extends Component {
         return (
             <ScrollView>
                 <Card title="Budget">
-                    <Text style={material.caption}>Keep track of your expenses by setting a monthly budget. Current budget is {this.state.budget}.</Text>
+                    <Text style={material.caption}>Keep track of your expenses by setting a monthly budget. Only integers are permitted (0-9).</Text>
+                    <Divider style={styles.divider} />
                     <TextInput
                         placeholder="Enter a new budget here"
                         numberOfLines={1}
@@ -68,8 +112,8 @@ export default class Settings extends Component {
                         value={this.state.value}
                     />
                     <Button
-                        color={btnColor}
-                        onPress={() => this.reloadBudget()}
+                        color={btnColor('accent')}
+                        onPress={() => this.saveBudget()}
                         title="Save"
                         disabled={fieldIsEmpty}
                     />
@@ -80,10 +124,19 @@ export default class Settings extends Component {
                     <Text>mauricio.ludwig@outlook.com</Text>
                     <Text>https://github.com/MauricioLudwig</Text>
                     <Divider style={styles.divider} />
-                    <Text>This app was built with React Native (0.55) and Realm (2.8) for persisting data to local storage.</Text>
+                    <Text>This app was built with React Native (0.55.4) and Realm (2.8.1) for persisting data to local storage.</Text>
                 </Card>
                 <Card title="Third-Party Libraries">
                     {libraries}
+                </Card>
+                <Card title="Reset Database">
+                    <Text style={material.caption}>Clear all data stored on this device. This will remove any existing expenses and reset the app to default settings.</Text>
+                    <Divider style={styles.divider} />
+                    <Button
+                        color={btnColor('danger')}
+                        onPress={() => this.onDeleteDataHandler()}
+                        title="Delete Data"
+                    />
                 </Card>
             </ScrollView>
         );
