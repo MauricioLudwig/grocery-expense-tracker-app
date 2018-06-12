@@ -1,4 +1,3 @@
-import React from 'react';
 import Realm from 'realm';
 import { getMonths } from '../constants';
 
@@ -95,6 +94,7 @@ export const getExpensesForMonth = () => new Promise((resolve, reject) => {
             .sorted('day');
 
         let result = [];
+        let maxSum = 0;
 
         for (let i = 1; i < 31; i++) {
 
@@ -103,11 +103,11 @@ export const getExpensesForMonth = () => new Promise((resolve, reject) => {
 
             if (filterSameDays.length > 0) {
 
-                let sum = 0;
+                let sum = filterSameDays.sum('expense');
 
-                for (let y = 0; y < filterSameDays.length; y++) {
-                    sum += filterSameDays[y].expense;
-                }
+                if (maxSum < sum) {
+                    maxSum = sum;
+                };
 
                 result.push({
                     day: i,
@@ -117,7 +117,30 @@ export const getExpensesForMonth = () => new Promise((resolve, reject) => {
 
         };
 
-        resolve(result);
+        let payload = {
+            maxSum,
+            result
+        };
+
+        resolve(payload);
+
+    }).catch(error => {
+        reject(error);
+    });
+});
+
+export const getSumOfMonthExpenses = () => new Promise((resolve, reject) => {
+    Realm.open(databaseOptions).then(realm => {
+
+        // Filter all expenses for current month
+        let today = new Date();
+        let currentYear = today.getFullYear();
+        let currentMonth = today.getMonth() + 1;
+        let expenses = realm.objects(EXPENSE_SCHEMA)
+            .filtered(`year == ${currentYear} && month == ${currentMonth}`)
+            .sum('expense');
+
+        resolve(expenses);
 
     }).catch(error => {
         reject(error);

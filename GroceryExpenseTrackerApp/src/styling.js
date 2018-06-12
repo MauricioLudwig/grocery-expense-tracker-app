@@ -10,8 +10,8 @@ export const btnColor = (type) => {
 };
 
 export const appColors = {
-    toolbarBackgroundColor: '#1b3a6b',
+    toolbarBackgroundColor: '#455A64',
     toolbarColor: 'white',
-    backgroundColor: '#FAFAFA',
+    backgroundColor: '#fcfcfc',
     iconColor: '#1b3a6b'
 };

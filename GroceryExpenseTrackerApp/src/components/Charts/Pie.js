@@ -13,18 +13,18 @@ export default class Pie extends Component {
     render() {
 
         const colors = [
-            "tomato",
-            "#009688",
-            "#607D8B",
-            "cyan",
-            "navy",
-            "green",
-            "red",
-            "purple",
-            "coral",
-            "skyblue",
-            "brown",
-            "#CDDC39",
+            "#ef9a9a", // 1
+            "#FFCC80", // 2
+            "#CE93D8", // 3
+            "#AED581", // 4
+            "#4FC3F7", // 5
+            "#FFEB3B", // 6
+            "tomato", // 7
+            "#80DEEA", // 8
+            "#C8E6C9", // 9
+            "#BCAAA4", // 10
+            "#FF9800", // 11
+            "#80CBC4", // 12
         ];
 
         /*

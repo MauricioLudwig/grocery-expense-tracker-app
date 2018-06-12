@@ -7,7 +7,7 @@ import {
     Alert,
     ToastAndroid
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import { material } from 'react-native-typography';
 
 import { deleteExpense } from '../../database/realm';
 
@@ -45,14 +45,21 @@ export default class ExpenseItem extends Component {
     render() {
 
         const shortDate = `${this.props.item.year}-${this.props.item.month}-${this.props.item.day}`;
+        const itemBackground = this.props.itemIndex % 2 == 0 ? "#455A64" : "#607D8B";
 
         return (
             <TouchableOpacity
-                style={styles.container}
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: 20,
+                    backgroundColor: itemBackground
+                }}
                 onPress={() => this.launchAlert()}
             >
-                <Text>{shortDate}</Text>
-                <Text>{this.props.item.expense}</Text>
+                <Text style={material.body2White}>{shortDate}</Text>
+                <Text style={material.body2White}>{this.props.item.expense}</Text>
             </TouchableOpacity>
         );
     };
@@ -64,8 +71,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 20,
-        borderBottomWidth: 1,
-        borderColor: '#d6d6d6'
+        padding: 20
     }
 });

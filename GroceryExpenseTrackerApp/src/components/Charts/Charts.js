@@ -5,7 +5,7 @@ import {
     StyleSheet,
     Text
 } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Card, Divider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Feather';
 
 import Scatter from './Scatter';
@@ -26,6 +26,7 @@ export default class Charts extends Component {
         currentYear: (new Date()).getFullYear(),
         currentMonth: ((new Date()).getMonth() + 1),
         scatterData: [],
+        scatterMaxSum: 0,
         pieData: []
     };
 
@@ -41,7 +42,10 @@ export default class Charts extends Component {
     reloadData = () => {
 
         getExpensesForMonth().then((res) => {
-            this.setState({ scatterData: res })
+            this.setState({
+                scatterData: res.result,
+                scatterMaxSum: res.maxSum
+            });
         }).catch(error => {
             this.setState({ scatterData: [] })
         });
@@ -73,16 +77,17 @@ export default class Charts extends Component {
             <ScrollView style={styles.container}>
                 <Card title={monthCardLabel}>
                     <Text>Have a look at your daily expenses for the current month.</Text>
-                    <Text>Day ( x )</Text>
-                    <Text>Sum of expenses ( y )</Text>
+                    <Divider style={styles.divider} />
+                    <Text>x - Day in month</Text>
+                    <Text>y - Total sum of expenses per day</Text>
                 </Card>
                 {
-                    this.state.pieData.length > 0
-                        ? <Scatter data={this.state.scatterData} />
+                    this.state.scatterData.length > 0
+                        ? <Scatter maxSum={this.state.scatterMaxSum} data={this.state.scatterData} />
                         : textOutput
                 }
                 <Card title={yearCardLabel}>
-                    <Text>Have a look at your daily expenses for the current year. Scrollable horizontally.</Text>
+                    <Text>Have a look at your daily expenses for the current year. Horizontal scrolling enabled.</Text>
                 </Card>
                 {
                     this.state.pieData.length > 0
@@ -111,5 +116,10 @@ const styles = StyleSheet.create({
     },
     icon: {
         paddingRight: 10
+    },
+    divider: {
+        marginTop: 10,
+        marginBottom: 10,
+        backgroundColor: '#efefef'
     }
 });

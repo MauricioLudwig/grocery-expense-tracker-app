@@ -7,19 +7,30 @@ import {
     AsyncStorage,
     ToastAndroid
 } from 'react-native';
-import { Navigation } from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/Feather';
-import { Card } from 'react-native-elements';
+import { Card, Divider } from 'react-native-elements';
+import ActionButton from 'react-native-action-button';
 
 import ExpenseList from '../Expenses/ExpenseList';
 import { appColors, btnColor } from '../../styling';
-import { getMonths, getYears } from '../../constants';
-import Realm, { getExpenses } from '../../database/realm';
+import Realm, { getExpenses, getSumOfMonthExpenses } from '../../database/realm';
 
 export default class Overview extends Component {
 
+    /*
+    budget: {
+        value: ,
+        sum: ,
+        balance: ,
+        conclusion: 
+        currentMonth: ,
+        currentYear: ,       
+    }
+    */
+
     state = {
         expenses: [],
+        budget: {}
     };
 
     static navigatorStyle = {
@@ -43,6 +54,12 @@ export default class Overview extends Component {
         }).catch((error) => {
             this.setState({ expenses: [] })
         });
+
+        getSumOfMonthExpenses().then(res => {
+            
+        }).catch(error => {
+            
+        });
     };
 
     launchAddExpenseScreen = () => {
@@ -58,6 +75,10 @@ export default class Overview extends Component {
 
         const expensesList = (
             <View style={styles.expensesListView}>
+                <Card title="Expenses">
+                    <Text>Below is a list of your recent expenses, capped at 100 entries. Click an item to delete.</Text>
+                </Card>
+                <Divider style={styles.divider} />
                 <ExpenseList expenses={this.state.expenses} />
             </View>
         );
@@ -76,7 +97,7 @@ export default class Overview extends Component {
         return (
             <View style={styles.container}>
                 <View>
-                    <Card>
+                    <Card title="Budget Overview">
                         <Text>Budget: (todo)</Text>
                         <Text>Sum of expenses this month: (todo)</Text>
                         <Text>Budget conclusion (todo)</Text>
@@ -88,9 +109,8 @@ export default class Overview extends Component {
                         : emptyList
                     }
                 </View>
-                <Button
-                    color={btnColor('accent')}
-                    title="Add Expense"
+                <ActionButton
+                    buttonColor='#69b0c6'
                     onPress={() => this.launchAddExpenseScreen()}
                 />
             </View>
@@ -108,9 +128,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     expensesListView: {
-        marginTop: 15,
-        borderTopWidth: 1,
-        borderColor: '#d6d6d6',
         flex: 1
     },
     emptyListView: {
@@ -121,5 +138,14 @@ const styles = StyleSheet.create({
     emptyListText: {
         textAlign: 'center',
         fontSize: 16
+    },
+    divider: {
+        marginTop: 15,
+        height: 3
+    },
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 22,
+        color: 'white',
     }
 });

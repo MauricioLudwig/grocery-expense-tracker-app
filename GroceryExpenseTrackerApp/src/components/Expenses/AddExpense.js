@@ -116,7 +116,8 @@ export default class AddExpense extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: appColors.backgroundColor
     },
     datepicker: {
         width: '100%',

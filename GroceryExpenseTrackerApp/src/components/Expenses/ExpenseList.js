@@ -4,7 +4,8 @@ import {
     View,
     StyleSheet,
     Button,
-    Text
+    Text,
+    Card
 } from 'react-native';
 
 import ExpenseItem from '../Expenses/ExpenseItem';
@@ -19,6 +20,7 @@ export default class ExpenseList extends Component {
                     data={this.props.expenses}
                     renderItem={(item) => (
                         <ExpenseItem
+                            itemIndex={item.index}
                             item={item.item}
                         />
                     )}
@@ -33,8 +35,5 @@ export default class ExpenseList extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1
-    },
-    flatList: {
-        marginBottom: 5
     }
 });

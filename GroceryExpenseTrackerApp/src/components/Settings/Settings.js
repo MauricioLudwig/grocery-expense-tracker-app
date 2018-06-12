@@ -91,8 +91,8 @@ export default class Settings extends Component {
         const libraries = getLibraries().map((library, index) => {
             return (
                 <View key={index}>
-                    <Text>{library.title}</Text>
-                    <Text>{library.url}</Text>
+                    <Text selectable={true}>{library.title}</Text>
+                    <Text selectable={true}>{library.url}</Text>
                     <Divider style={styles.divider} />
                 </View>
             );
@@ -120,9 +120,9 @@ export default class Settings extends Component {
                 </Card>
                 <Card title="Credits">
                     <Text style={{ fontWeight: 'bold' }}>Developed by</Text>
-                    <Text>Mauricio Ludwig</Text>
-                    <Text>mauricio.ludwig@outlook.com</Text>
-                    <Text>https://github.com/MauricioLudwig</Text>
+                    <Text selectable={true}>Mauricio Ludwig</Text>
+                    <Text selectable={true}>mauricio.ludwig@outlook.com</Text>
+                    <Text selectable={true}>https://github.com/MauricioLudwig</Text>
                     <Divider style={styles.divider} />
                     <Text>This app was built with React Native (0.55.4) and Realm (2.8.1) for persisting data to local storage.</Text>
                 </Card>

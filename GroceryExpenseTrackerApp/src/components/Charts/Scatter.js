@@ -22,11 +22,16 @@ export default class Scatter extends Component {
             };
         });
 
+        const chartAxis = {
+            x: [1, 31],
+            y: [0, this.props.maxSum]
+        };
+
         return (
             <View pointerEvents="none">
                 <VictoryChart
                     theme={VictoryTheme.material}
-                    domain={{ x: [1, 31], y: [0, 100] }}
+                    domain={chartAxis}
                 >
                     <VictoryScatter
                         style={{ data: { fill: "#c43a31" } }}
