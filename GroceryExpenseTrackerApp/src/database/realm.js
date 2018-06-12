@@ -94,7 +94,30 @@ export const getExpensesForMonth = () => new Promise((resolve, reject) => {
             .filtered(`year == ${currentYear} && month == ${currentMonth}`)
             .sorted('day');
 
-        resolve(expenses);
+        let result = [];
+
+        for (let i = 1; i < 31; i++) {
+
+            let filterSameDays = expenses
+                .filtered(`day == ${i}`);
+
+            if (filterSameDays.length > 0) {
+
+                let sum = 0;
+
+                for (let y = 0; y < filterSameDays.length; y++) {
+                    sum += filterSameDays[y].expense;
+                }
+
+                result.push({
+                    day: i,
+                    sum: sum
+                });
+            };
+
+        };
+
+        resolve(result);
 
     }).catch(error => {
         reject(error);

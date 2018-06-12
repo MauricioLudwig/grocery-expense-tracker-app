@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import { Card } from 'react-native-elements';
 
 import ExpenseList from '../Expenses/ExpenseList';
-import { toolbarColor, btnColor } from '../../styling';
+import { appColors, btnColor } from '../../styling';
 import { getMonths, getYears } from '../../constants';
 import Realm, { getExpenses } from '../../database/realm';
 
@@ -24,8 +24,8 @@ export default class Overview extends Component {
 
     static navigatorStyle = {
         navBarTitleTextCentered: true,
-        navBarTextColor: toolbarColor.color,
-        navBarBackgroundColor: toolbarColor.backgroundColor
+        navBarTextColor: appColors.toolbarColor,
+        navBarBackgroundColor: appColors.toolbarBackgroundColor
     };
 
     constructor(props) {
@@ -101,7 +101,8 @@ export default class Overview extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: appColors.backgroundColor
     },
     listContainer: {
         flex: 1,

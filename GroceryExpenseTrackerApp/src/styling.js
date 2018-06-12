@@ -9,7 +9,9 @@ export const btnColor = (type) => {
     };
 };
 
-export const toolbarColor = {
-    backgroundColor: '#1b3a6b',
-    color: 'white'
+export const appColors = {
+    toolbarBackgroundColor: '#1b3a6b',
+    toolbarColor: 'white',
+    backgroundColor: '#FAFAFA',
+    iconColor: '#1b3a6b'
 };

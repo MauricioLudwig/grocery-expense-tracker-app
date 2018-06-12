@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    ScrollView,
+    Text
+} from 'react-native';
 import { VictoryPie } from 'victory-native';
+import { Card } from 'react-native-elements';
 
 export default class Pie extends Component {
 
@@ -8,38 +14,73 @@ export default class Pie extends Component {
 
         const colors = [
             "tomato",
-            "orange",
-            "gold",
+            "#009688",
+            "#607D8B",
             "cyan",
             "navy",
             "green",
             "red",
-            "yellow",
+            "purple",
             "coral",
             "skyblue",
             "brown",
-            "pink",
+            "#CDDC39",
         ];
 
-        // x = index
-        // y = amount
-        // label = label for the amount
+        /*
+        x = index
+        y = amount/slice of pie
+        label = label for amount
+        */
 
         const data = this.props.data.map((item) => {
             return {
                 x: item.monthValue,
                 y: item.sum,
-                label: `${item.monthLabel} (${item.sum})`
-            }
+                label: item.sum
+            };
+        });
+
+        const monthLabels = this.props.data.map((item, index) => {
+            let monthLabelColor = colors[index];
+            return (
+                <Text
+                    style={{ marginBottom: 5, color: monthLabelColor }}
+                    key={index}
+                >
+                    {`${item.monthLabel} (${item.sum})`}
+                </Text>
+            );
         });
 
         return (
-            <VictoryPie
-                width={500}
-                colorScale={colors}
-                data={data}
-            />
+            <ScrollView
+                horizontal={true}
+            >
+                <View style={styles.containerView}>
+                    <Card>
+                        {monthLabels}
+                    </Card>
+                </View>
+                <View
+                    pointerEvents="none"
+                >
+                    <VictoryPie
+                        colorScale={colors}
+                        data={data}
+                    />
+                </View>
+            </ScrollView>
         );
     };
 
-}
+};
+
+const styles = StyleSheet.create({
+    containerView: {
+        marginLeft: 10,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+});

@@ -12,16 +12,16 @@ import { material } from 'react-native-typography';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import { Card } from 'react-native-elements';
 
-import { btnColor, toolbarColor } from '../../styling';
+import { btnColor, appColors } from '../../styling';
 import { addExpense } from '../../database/realm';
 
 export default class AddExpense extends Component {
 
     static navigatorStyle = {
         navBarTitleTextCentered: true,
-        navBarTextColor: toolbarColor.color,
-        navBarBackgroundColor: toolbarColor.backgroundColor,
-        navBarButtonColor: toolbarColor.color
+        navBarTextColor: appColors.toolbarColor,
+        navBarBackgroundColor: appColors.toolbarBackgroundColor,
+        navBarButtonColor: appColors.toolbarColor
     };
 
     state = {
@@ -73,7 +73,7 @@ export default class AddExpense extends Component {
     render() {
 
         const fieldIsEmpty = this.state.expense.length < 1;
-        const calendarIcon = <Icon name="calendar" color={toolbarColor.backgroundColor} size={30}></Icon>;
+        const calendarIcon = <Icon name="calendar" color={appColors.iconColor} size={30}></Icon>;
 
         return (
             <View style={styles.container}>

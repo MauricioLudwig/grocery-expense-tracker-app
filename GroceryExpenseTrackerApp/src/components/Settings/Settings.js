@@ -14,15 +14,15 @@ import { Card, Divider } from 'react-native-elements';
 import { material } from 'react-native-typography';
 
 import { getLibraries } from '../../constants';
-import { btnColor, toolbarColor } from '../../styling';
+import { btnColor, appColors } from '../../styling';
 import { getBudget, clearDb } from '../../database/realm';
 
 export default class Settings extends Component {
 
     static navigatorStyle = {
         navBarTitleTextCentered: true,
-        navBarTextColor: toolbarColor.color,
-        navBarBackgroundColor: toolbarColor.backgroundColor
+        navBarTextColor: appColors.toolbarColor,
+        navBarBackgroundColor: appColors.toolbarBackgroundColor
     };
 
     constructor(props) {
@@ -99,7 +99,7 @@ export default class Settings extends Component {
         });
 
         return (
-            <ScrollView>
+            <ScrollView style={styles.container}>
                 <Card title="Budget">
                     <Text style={material.caption}>Keep track of your expenses by setting a monthly budget. Only integers are permitted (0-9).</Text>
                     <Divider style={styles.divider} />
@@ -145,6 +145,9 @@ export default class Settings extends Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        backgroundColor: appColors.backgroundColor  
+    },
     divider: {
         marginTop: 10,
         marginBottom: 10,
