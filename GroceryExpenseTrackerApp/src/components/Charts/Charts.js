@@ -19,7 +19,8 @@ export default class Charts extends Component {
     static navigatorStyle = {
         navBarTitleTextCentered: true,
         navBarTextColor: appColors.toolbarColor,
-        navBarBackgroundColor: appColors.toolbarBackgroundColor
+        navBarBackgroundColor: appColors.toolbarBackgroundColor,
+        statusBarColor: appColors.statusBarColor
     };
 
     state = {

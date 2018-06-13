@@ -8,11 +8,10 @@ import {
     ToastAndroid
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import { material } from 'react-native-typography';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import { Card } from 'react-native-elements';
 
-import { btnColor, appColors } from '../../styling';
+import { appColors } from '../../styling';
 import { addExpense } from '../../database/realm';
 
 export default class AddExpense extends Component {
@@ -21,7 +20,8 @@ export default class AddExpense extends Component {
         navBarTitleTextCentered: true,
         navBarTextColor: appColors.toolbarColor,
         navBarBackgroundColor: appColors.toolbarBackgroundColor,
-        navBarButtonColor: appColors.toolbarColor
+        navBarButtonColor: appColors.toolbarColor,
+        statusBarColor: appColors.statusBarColor
     };
 
     state = {
@@ -78,7 +78,7 @@ export default class AddExpense extends Component {
         return (
             <View style={styles.container}>
                 <Card title="Day of Purchase">
-                    <Text style={material.caption}>Click field to change. Format is YYYY-MM-DD.</Text>
+                    <Text>Click field to change. Format is YYYY-MM-DD.</Text>
                     <DatePicker
                         style={styles.datepicker}
                         iconComponent={calendarIcon}
@@ -90,7 +90,7 @@ export default class AddExpense extends Component {
                     />
                 </Card>
                 <Card title="Expense">
-                    <Text style={material.caption}>Only integers are permitted (0-9).</Text>
+                    <Text>Only integers are permitted (0-9).</Text>
                     <TextInput
                         numberOfLines={1}
                         maxLength={20}
@@ -102,7 +102,7 @@ export default class AddExpense extends Component {
                 <View style={styles.fillSpace}></View>
                 <View style={styles.addBtnView}>
                     <Button
-                        color={btnColor('accent')}
+                        color={appColors.btnPrimary}
                         title="Add"
                         onPress={this.onAddExpense}
                         disabled={fieldIsEmpty}

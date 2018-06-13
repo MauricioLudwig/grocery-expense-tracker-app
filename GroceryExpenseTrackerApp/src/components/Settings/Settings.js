@@ -11,18 +11,18 @@ import {
     ToastAndroid
 } from 'react-native';
 import { Card, Divider } from 'react-native-elements';
-import { material } from 'react-native-typography';
 
 import { getLibraries } from '../../constants';
-import { btnColor, appColors } from '../../styling';
-import { getBudget, clearDb } from '../../database/realm';
+import { appColors } from '../../styling';
+import { clearDb } from '../../database/realm';
 
 export default class Settings extends Component {
 
     static navigatorStyle = {
         navBarTitleTextCentered: true,
         navBarTextColor: appColors.toolbarColor,
-        navBarBackgroundColor: appColors.toolbarBackgroundColor
+        navBarBackgroundColor: appColors.toolbarBackgroundColor,
+        statusBarColor: appColors.statusBarColor
     };
 
     constructor(props) {
@@ -36,20 +36,44 @@ export default class Settings extends Component {
     };
 
     reloadBudget = () => {
-        // TODO
+        this.getBudgetFromLocalStore()
+            .then(res => {
+                this.setState({
+                    budget: res
+                });
+            });
     };
 
     saveBudget = () => {
+
+        this.saveBudgetToLocalStore();
         this.displayToast(`New budget set at ${this.state.value}.`);
         this.setState({
             value: ''
-        });
+        }, this.reloadBudget());;
     };
+
+    async getBudgetFromLocalStore() {
+        try {
+            const value = await AsyncStorage.getItem('@BudgetKey:key');
+            return value;
+        } catch (error) {
+            alert('Error retrieving value');
+        };
+    }
+
+    async saveBudgetToLocalStore() {
+        try {
+            await AsyncStorage.setItem('@BudgetKey:key', this.state.value)
+        } catch (error) {
+            alert('Unable to save');
+        }
+    }
 
     onDeleteDataHandler = () => {
         Alert.alert(
             'Reset App?',
-            'This action is irreversible.',
+            'All data will be lost. This action is irreversible.',
             [
                 {
                     text: 'Cancel',
@@ -67,12 +91,15 @@ export default class Settings extends Component {
 
     DeleteAppData = () => {
         clearDb()
-            .then()
+            .then(() => {
+                AsyncStorage.removeItem('@BudgetKey:key');
+                this.reloadBudget();
+            })
             .catch(error => {
                 alert('Could not perform operation.');
             });
 
-        this.displayToast('Application data was deleted.');
+        this.displayToast('App data was deleted.');
     };
 
     onChangeText = (text) => {
@@ -101,8 +128,9 @@ export default class Settings extends Component {
         return (
             <ScrollView style={styles.container}>
                 <Card title="Budget">
-                    <Text style={material.caption}>Keep track of your expenses by setting a monthly budget. Only integers are permitted (0-9).</Text>
+                    <Text>Keep track of your expenses by setting a monthly budget. Only integers are permitted (0-9).</Text>
                     <Divider style={styles.divider} />
+                    <Text style={{ marginLeft: 5 }}>{this.state.budget ? `Current budget: ${this.state.budget}` : 'No budget has been set.'}</Text>
                     <TextInput
                         placeholder="Enter a new budget here"
                         numberOfLines={1}
@@ -112,7 +140,7 @@ export default class Settings extends Component {
                         value={this.state.value}
                     />
                     <Button
-                        color={btnColor('accent')}
+                        color={appColors.btnPrimary}
                         onPress={() => this.saveBudget()}
                         title="Save"
                         disabled={fieldIsEmpty}
@@ -130,10 +158,10 @@ export default class Settings extends Component {
                     {libraries}
                 </Card>
                 <Card title="Reset Database">
-                    <Text style={material.caption}>Clear all data stored on this device. This will remove any existing expenses and reset the app to default settings.</Text>
+                    <Text>Clear all data stored on this device. This will remove any existing expenses and reset the app to default settings.</Text>
                     <Divider style={styles.divider} />
                     <Button
-                        color={btnColor('danger')}
+                        color={appColors.btnDanger}
                         onPress={() => this.onDeleteDataHandler()}
                         title="Delete Data"
                     />
@@ -146,7 +174,7 @@ export default class Settings extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: appColors.backgroundColor  
+        backgroundColor: appColors.backgroundColor
     },
     divider: {
         marginTop: 10,

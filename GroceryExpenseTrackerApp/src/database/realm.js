@@ -129,6 +129,7 @@ export const getExpensesForMonth = () => new Promise((resolve, reject) => {
     });
 });
 
+// Get sum of expenses for current month
 export const getSumOfMonthExpenses = () => new Promise((resolve, reject) => {
     Realm.open(databaseOptions).then(realm => {
 

@@ -5,15 +5,18 @@ import {
     TouchableOpacity,
     Text,
     Alert,
-    ToastAndroid
+    ToastAndroid,
+    Button
 } from 'react-native';
 import { material } from 'react-native-typography';
+import { Icon } from 'react-native-elements';
+import { appColors } from '../../styling';
 
 import { deleteExpense } from '../../database/realm';
 
 export default class ExpenseItem extends Component {
 
-    launchAlert = () => {
+    launchDeleteAlert = () => {
         Alert.alert(
             'Delete Expense?',
             'This action is irreversible.',
@@ -56,10 +59,16 @@ export default class ExpenseItem extends Component {
                     padding: 20,
                     backgroundColor: itemBackground
                 }}
-                onPress={() => this.launchAlert()}
             >
                 <Text style={material.body2White}>{shortDate}</Text>
                 <Text style={material.body2White}>{this.props.item.expense}</Text>
+                <Icon
+                    raised
+                    name="md-trash"
+                    color={appColors.btnInfo}
+                    type="ionicon"
+                    onPress={() => this.launchDeleteAlert()}
+                />
             </TouchableOpacity>
         );
     };

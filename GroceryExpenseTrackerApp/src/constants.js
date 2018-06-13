@@ -16,11 +16,6 @@ export const getLibraries = () => {
             url: 'https://github.com/wix/react-native-navigation'
         },
         {
-            // SVG Charts
-            title: 'react-native-svg-charts',
-            url: 'https://github.com/JesperLekland/react-native-svg-charts'
-        },
-        {
             // Typography
             title: 'react-native-typography',
             url: 'https://github.com/hectahertz/react-native-typography'
@@ -29,6 +24,11 @@ export const getLibraries = () => {
             // Vector Icons
             title: 'react-native-vector-icons',
             url: 'https://github.com/oblador/react-native-vector-icons'
+        },
+        {
+            // Victory Native
+            title: 'victory-native',
+            url: 'https://github.com/FormidableLabs/victory-native'
         }
     ];
 };
