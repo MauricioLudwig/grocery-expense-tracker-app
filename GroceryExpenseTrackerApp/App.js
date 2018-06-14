@@ -1,5 +1,6 @@
 import { Navigation } from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/Feather';
+import { appColors } from './src/styling';
 
 import { registerScreens } from './src/screens/screens';
 
@@ -36,7 +37,13 @@ Promise.all([
         icon: sources[2],
         title: 'Settings'
       },
-    ]
+    ],
+    appStyle: {
+      tabBarButtonColor: appColors.tabBarButtonColor,
+      tabBarSelectedButtonColor: appColors.tabBarSelectedButtonColor,
+      initialTabIndex: 1
+    },
+    animationType: 'none'
   });
 
 });

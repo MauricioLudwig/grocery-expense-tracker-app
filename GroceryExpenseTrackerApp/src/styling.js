@@ -6,5 +6,7 @@ export const appColors = {
     statusBarColor: '#2c373d',
     btnPrimary: '#142c3d',
     btnInfo: '#2580bc',
-    btnDanger: 'red'
+    btnDanger: 'red',
+    tabBarButtonColor: '#819ca9',
+    tabBarSelectedButtonColor: '#29434e'
 };
