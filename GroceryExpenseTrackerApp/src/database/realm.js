@@ -28,8 +28,8 @@ const databaseOptions = {
 export const getExpenses = () => new Promise((resolve, reject) => {
     Realm.open(databaseOptions).then((realm) => {
         let expenses = realm.objects(EXPENSE_SCHEMA).sorted([['year', true], ['month', true], ['day', true], ['id', true]]);
-        // Limit number of expenses to return to 100
-        let limitExpenses = expenses.slice(0, 100)
+        // Limit number of expenses to return to 50
+        let limitExpenses = expenses.slice(0, 50)
         resolve(limitExpenses);
     }).catch((error) => {
         reject(error);

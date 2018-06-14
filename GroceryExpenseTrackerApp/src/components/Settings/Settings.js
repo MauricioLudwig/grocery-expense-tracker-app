@@ -130,7 +130,7 @@ export default class Settings extends Component {
                 <Card title="Budget">
                     <Text>Keep track of your expenses by setting a monthly budget. Only integers are permitted (0-9).</Text>
                     <Divider style={styles.divider} />
-                    <Text style={{ marginLeft: 5 }}>{this.state.budget ? `Current budget: ${this.state.budget}` : 'No budget has been set.'}</Text>
+                    <Text style={{ marginLeft: 5, fontWeight: 'bold' }}>{this.state.budget ? `Current budget: ${this.state.budget}` : 'No budget has been set.'}</Text>
                     <TextInput
                         placeholder="Enter a new budget here"
                         numberOfLines={1}

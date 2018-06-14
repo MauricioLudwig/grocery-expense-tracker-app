@@ -6,7 +6,7 @@ import {
     Text
 } from 'react-native';
 import { Card, Divider } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Scatter from './Scatter';
 import Pie from './Pie';
@@ -68,7 +68,7 @@ export default class Charts extends Component {
         const textOutput = (
             <Card>
                 <View style={styles.textOutput}>
-                    <Icon style={styles.icon} name="alert-circle" size={25} />
+                    <Icon style={styles.icon} name="exclamation-circle" size={25} />
                     <Text style={styles.emptyListText}>No data available to display.</Text>
                 </View>
             </Card>
@@ -79,8 +79,8 @@ export default class Charts extends Component {
                 <Card title={monthCardLabel}>
                     <Text>Have a look at your daily expenses for the current month.</Text>
                     <Divider style={styles.divider} />
-                    <Text>x - Day in month</Text>
-                    <Text>y - Total sum of expenses per day</Text>
+                    <Text style={{ fontWeight: 'bold' }}>x - Day in month</Text>
+                    <Text style={{ fontWeight: 'bold' }}>y - Total sum of expenses per day</Text>
                 </Card>
                 {
                     this.state.scatterData.length > 0

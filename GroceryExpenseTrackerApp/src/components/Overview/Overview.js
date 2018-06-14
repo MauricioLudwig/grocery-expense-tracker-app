@@ -6,7 +6,7 @@ import {
     Button,
     AsyncStorage
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { Card, Divider } from 'react-native-elements';
 
 import ExpenseList from '../Expenses/ExpenseList';
@@ -153,7 +153,7 @@ export default class Overview extends Component {
             <View style={styles.emptyListView}>
                 <Card>
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                        <Icon style={{ paddingRight: 10 }} name="alert-circle" size={25} />
+                        <Icon style={{ paddingRight: 10 }} name="exclamation-circle" size={25} />
                         <Text style={styles.emptyListText}>There are no expenses to display.</Text>
                     </View>
                 </Card>
@@ -163,7 +163,7 @@ export default class Overview extends Component {
         return (
             <View style={styles.container}>
                 <View>
-                    <Card title="Budget Overview">
+                    <Card title="Budget">
                         <Text>{this.state.budget ? `Current budget: ${this.state.budget}` : 'No budget has been set.'}</Text>
                         <Text>{this.state.sumOfExpenses ? `Sum of expenses this month: ${this.state.sumOfExpenses}` : 'You have no expenses for this month.'}</Text>
                         {this.state.balance ? <Text>{`Balance: ${this.state.balance}`}</Text> : <Text></Text>}
