@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import {
-    View,
-    StyleSheet,
     TouchableOpacity,
     Text,
     Alert,
-    ToastAndroid,
-    Button
+    ToastAndroid
 } from 'react-native';
 import { material } from 'react-native-typography';
 import { Icon } from 'react-native-elements';
@@ -74,12 +71,3 @@ export default class ExpenseItem extends Component {
     };
 
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 20
-    }
-});

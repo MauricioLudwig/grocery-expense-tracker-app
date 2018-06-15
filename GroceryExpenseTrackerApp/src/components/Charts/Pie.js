@@ -19,7 +19,7 @@ export default class Pie extends Component {
             "#AED581", // 4
             "#4FC3F7", // 5
             "#FFEB3B", // 6
-            "tomato", // 7
+            "tomato",  // 7
             "#80DEEA", // 8
             "#C8E6C9", // 9
             "#BCAAA4", // 10
@@ -27,11 +27,9 @@ export default class Pie extends Component {
             "#80CBC4", // 12
         ];
 
-        /*
-        x = index
-        y = amount/slice of pie
-        label = label for amount
-        */
+        // x     = index
+        // y     = amount/slice of pie
+        // label = label for amount 
 
         const data = this.props.data.map((item) => {
             return {

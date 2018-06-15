@@ -15,17 +15,6 @@ import Realm, { getExpenses, getSumOfMonthExpenses } from '../../database/realm'
 
 export default class Overview extends Component {
 
-    /*
-    budget: {
-        value: ,
-        sum: ,
-        balance: ,
-        conclusion: 
-        currentMonth: ,
-        currentYear: ,       
-    }
-    */
-
     state = {
         expenses: [],
         budget: null,
@@ -49,13 +38,13 @@ export default class Overview extends Component {
             this.reloadData();
         });
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-    }
+    };
 
     onNavigatorEvent(event) {
         if (event.id === 'bottomTabSelected') {
             this.getBudget();
         }
-    }
+    };
 
     reloadData = () => {
         getExpenses().then((res) => {
@@ -142,7 +131,7 @@ export default class Overview extends Component {
         const expensesList = (
             <View style={styles.expensesListView}>
                 <Card title="Expenses">
-                    <Text>Below is a list of your recent expenses, capped at 100 entries. Click an item to delete.</Text>
+                    <Text>Below is a list of your recent expenses, capped at 50 entries.</Text>
                 </Card>
                 <Divider style={styles.divider} />
                 <ExpenseList expenses={this.state.expenses} />
@@ -240,7 +229,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#efefef'
     },
     budgetText: {
-        color: '#1d2b42',
+        color: '#244272',
         fontWeight: 'bold'
     }
 });

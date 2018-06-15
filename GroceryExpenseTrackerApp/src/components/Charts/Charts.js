@@ -56,6 +56,7 @@ export default class Charts extends Component {
         }).catch((error) => {
             this.setState({ pieData: [] })
         });
+
     };
 
     render() {

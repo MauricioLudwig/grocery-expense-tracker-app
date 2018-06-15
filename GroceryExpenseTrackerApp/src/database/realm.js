@@ -24,7 +24,7 @@ const databaseOptions = {
     schemaVersion: 0 // Optional
 }
 
-// Get all expenses from DB
+// Get all expenses
 export const getExpenses = () => new Promise((resolve, reject) => {
     Realm.open(databaseOptions).then((realm) => {
         let expenses = realm.objects(EXPENSE_SCHEMA).sorted([['year', true], ['month', true], ['day', true], ['id', true]]);
@@ -148,7 +148,7 @@ export const getSumOfMonthExpenses = () => new Promise((resolve, reject) => {
     });
 });
 
-// Add new expense to DB
+// Add new expense
 export const addExpense = (newExpense) => new Promise((resolve, reject) => {
     Realm.open(databaseOptions).then((realm) => {
         realm.write(() => {
@@ -160,7 +160,7 @@ export const addExpense = (newExpense) => new Promise((resolve, reject) => {
     });
 });
 
-// Delete expense from DB
+// Delete expense
 export const deleteExpense = (expenseId) => new Promise((resolve, reject) => {
     Realm.open(databaseOptions).then((realm) => {
         realm.write(() => {

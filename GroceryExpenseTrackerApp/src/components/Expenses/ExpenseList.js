@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import {
     FlatList,
     View,
-    StyleSheet,
-    Button,
-    Text,
-    Card
+    StyleSheet
 } from 'react-native';
 
 import ExpenseItem from '../Expenses/ExpenseItem';

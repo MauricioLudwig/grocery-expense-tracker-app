@@ -45,7 +45,6 @@ export default class Settings extends Component {
     };
 
     saveBudget = () => {
-
         this.saveBudgetToLocalStore();
         this.displayToast(`New budget set at ${this.state.value}.`);
         this.setState({
@@ -170,7 +169,7 @@ export default class Settings extends Component {
         );
     };
 
-}
+};
 
 const styles = StyleSheet.create({
     container: {

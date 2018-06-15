@@ -10,7 +10,6 @@ export const registerScreens = () => {
     Navigation.registerComponent('groceryexpensetracker.ChartsScreen', () => Charts);
     Navigation.registerComponent('groceryexpensetracker.OverviewScreen', () => Overview);
     Navigation.registerComponent('groceryexpensetracker.SettingsScreen', () => Settings);
-
     // Add Expense Single Screen
     Navigation.registerComponent('groceryexpensetracker.AddExpenseScreen', () => AddExpense);
 };
