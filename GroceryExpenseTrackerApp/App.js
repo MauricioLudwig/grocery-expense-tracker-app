@@ -41,7 +41,8 @@ Promise.all([
     appStyle: {
       tabBarButtonColor: appColors.tabBarButtonColor,
       tabBarSelectedButtonColor: appColors.tabBarSelectedButtonColor,
-      initialTabIndex: 1
+      initialTabIndex: 1,
+      orientation: 'portrait'
     },
     animationType: 'none'
   });

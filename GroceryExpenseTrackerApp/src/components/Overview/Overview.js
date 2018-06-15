@@ -164,10 +164,23 @@ export default class Overview extends Component {
             <View style={styles.container}>
                 <View>
                     <Card title="Budget">
-                        <Text>{this.state.budget ? `Current budget: ${this.state.budget}` : 'No budget has been set.'}</Text>
-                        <Text>{this.state.sumOfExpenses ? `Sum of expenses this month: ${this.state.sumOfExpenses}` : 'You have no expenses for this month.'}</Text>
-                        {this.state.balance ? <Text>{`Balance: ${this.state.balance}`}</Text> : <Text></Text>}
-                        {this.state.ratio ? <Text>{`In order to keep track with your budget this month you can spend a total of ${this.state.ratio} per day.`}</Text> : <Text></Text>}
+                        <View style={styles.budgetRow}>
+                            <Text style={styles.budgetText}>Budget</Text>
+                            <Text style={styles.budgetText}>{this.state.budget ? `${this.state.budget}` : '--'}</Text>
+                        </View>
+                        <View style={styles.budgetRow}>
+                            <Text style={styles.budgetText}>Expenses this month</Text>
+                            <Text style={styles.budgetText}>{this.state.sumOfExpenses ? `${this.state.sumOfExpenses}` : '--'}</Text>
+                        </View>
+                        <Divider style={styles.divider} />
+                        <View style={styles.budgetRow}>
+                            <Text style={styles.budgetText}>Balance</Text>
+                            <Text style={styles.budgetText}>{this.state.balance ? `${this.state.balance}` : '--'}</Text>
+                        </View>
+                        <View style={styles.budgetRow}>
+                            <Text style={styles.budgetText}>Left to spend this month</Text>
+                            <Text style={styles.budgetText}>{this.state.ratio ? `${this.state.ratio}/day` : '--'}</Text>
+                        </View>
                     </Card>
                 </View>
                 <View style={styles.listContainer}>
@@ -215,5 +228,19 @@ const styles = StyleSheet.create({
         fontSize: 20,
         height: 22,
         color: 'white',
+    },
+    budgetRow: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    divider: {
+        marginTop: 10,
+        marginBottom: 10,
+        backgroundColor: '#efefef'
+    },
+    budgetText: {
+        color: '#1d2b42',
+        fontWeight: 'bold'
     }
 });
